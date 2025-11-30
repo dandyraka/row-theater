@@ -53,7 +53,7 @@ const seatData = [
     { id: 'G-21', col: COL_START_RIGHT }, { id: 'G-22', col: COL_START_RIGHT + 1 }, { id: 'G-23', col: COL_START_RIGHT + 2 }, { id: 'G-24', col: COL_START_RIGHT + 3 }, { id: 'G-25', col: COL_START_RIGHT + 4 }, { id: 'G-26', col: COL_START_RIGHT + 5 }, { id: 'G-27', col: COL_START_RIGHT + 6 },
     { id: 'H-21', col: COL_START_RIGHT }, { id: 'H-22', col: COL_START_RIGHT + 1 }, { id: 'H-23', col: COL_START_RIGHT + 2 }, { id: 'H-24', col: COL_START_RIGHT + 3 }, { id: 'H-25', col: COL_START_RIGHT + 4 }, { id: 'H-26', col: COL_START_RIGHT + 5 }, { id: 'H-27', col: COL_START_RIGHT + 6 },
     { id: 'I-21', col: COL_START_RIGHT }, { id: 'I-22', col: COL_START_RIGHT + 1 }, { id: 'I-23', col: COL_START_RIGHT + 2 }, { id: 'I-24', col: COL_START_RIGHT + 3 }, { id: 'I-25', col: COL_START_RIGHT + 4 }, { id: 'I-26', col: COL_START_RIGHT + 5 },
-    { id: 'J-20', col: COL_START_RIGHT }, { id: 'J-21', col: COL_START_RIGHT + 1 }, { id: 'J-22', col: COL_START_RIGHT + 2 }, { id: 'J-23', col: COL_START_RIGHT + 3 }
+    { id: 'J-20', col: COL_START_RIGHT }, { id: 'J-21', col: COL_START_RIGHT + 1 }, { id: 'J-22', col: COL_START_RIGHT + 2 }, { id: 'J-23', col: COL_START_RIGHT + 3 }, { id: 'J-24', col: COL_START_RIGHT + 4 }, { id: 'J-25', col: COL_START_RIGHT + 5 }, { id: 'J-26', col: COL_START_RIGHT + 6 }
 ];
 
 const layoutContainer = document.getElementById('seat-layout');
