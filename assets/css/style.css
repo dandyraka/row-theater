@@ -1,0 +1,104 @@
+/* CSS Grid Utama */
+.theater-layout {
+    display: grid;
+    grid-template-columns: repeat(34, 32px); 
+    gap: 5px;
+    max-width: none; 
+    margin-top: 10px; 
+}
+
+/* Wrapper untuk scroll horizontal */
+.theater-container-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* 💡 MEDIA QUERY UNTUK MOBILE SCROLLABLE */
+@media (max-width: 640px) {
+    .theater-container-wrapper {
+        overflow-x: auto; 
+        padding-left: 1rem; 
+        padding-right: 1rem; 
+        box-sizing: border-box;
+        max-width: 100%;
+        margin: 0;
+    }
+}
+
+/* Kelas utilitas untuk mengatur posisi baris */
+.seat[data-row="A"] { grid-row: 1; }
+.seat[data-row="B"] { grid-row: 2; }
+.seat[data-row="C"] { grid-row: 3; }
+.seat[data-row="D"] { grid-row: 4; }
+.seat[data-row="E"] { grid-row: 5; }
+.seat[data-row="F"] { grid-row: 6; }
+.seat[data-row="G"] { grid-row: 7; }
+.seat[data-row="H"] { grid-row: 8; }
+.seat[data-row="I"] { grid-row: 9; }
+.seat[data-row="J"] { grid-row: 10; }
+
+/* Mengembalikan kelas dasar kursi (Kotak) */
+.seat {
+    background-color: theme('colors.seat-default');
+    border: 1px solid theme('colors.gray.600');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px; 
+    cursor: pointer;
+    border-radius: 2px;
+    width: 32px; 
+    height: 32px; 
+    transition: all 0.1s ease-in-out;
+    color: white;
+    text-align: center;
+    line-height: 1; 
+}
+
+.seat:hover {
+    border-color: white;
+}
+
+/* Kelas untuk menimpa gaya default (kursi yang didapat) */
+.seat.occupied {
+    background-color: theme('colors.seat-obtained'); 
+    color: #111;
+    font-weight: bold;
+}
+
+/* Style untuk Label Baris */
+.row-label {
+    height: 32px; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    font-weight: bold;
+    font-size: 14px;
+    padding-right: 8px; 
+}
+
+/* Style untuk container Row Labels */
+.row-labels-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+    margin-top: 10px; 
+}
+
+/* Flex container utama untuk menampung label dan layout */
+.theater-flex-layout {
+    display: flex;
+}
+
+/* Style untuk footer */
+.footer {
+    /* Hapus margin-top: auto; karena kita ingin footer selalu terfoto dengan konten */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    width: 100%;
+    /* 💡 Tambahkan margin-top agar ada jarak antara layout dan footer di dalam screenshot-area */
+    margin-top: 3rem; 
+}

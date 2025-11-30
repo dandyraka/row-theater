@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My JKT48 Theater Seat History</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <link rel="icon" href="./assets/img/seat.png" type="image/x-icon">
+
+    <meta name="description" content="Kursi yang pernah kamu duduki di teater JKT48 yang mana aja sih? ayo berbagi...">
+    <meta property="og:title" content="My JKT48 Theater Seat History">
+    <meta property="og:description" content="Kursi yang pernah kamu duduki di teater JKT48 yang mana aja sih? ayo berbagi...">
+    <meta property="og:image" content="./assets/img/theater.png">
+    <meta property="og:url" content="https://jkt48live.github.io/wrappedExtWeb/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="My JKT48 Theater Seat History">
+    <meta name="twitter:description" content="Kursi yang pernah kamu duduki di teater JKT48 yang mana aja sih? ayo berbagi...">
+    <meta name="twitter:image" content="./assets/img/theater.png">
+    <meta name="twitter:url" content="https://x.com/da_n_dy">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'theater-dark': '#111',
+                        'seat-default': '#333',
+                        'seat-obtained': '#63e6be',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-theater-dark text-white p-5 flex flex-col items-center min-h-screen w-full"> 
+
+    <div id="screenshot-area" class="w-full flex flex-col items-center bg-theater-dark p-5"> 
+        <h1 class="text-center text-3xl font-bold mb-6">My JKT48 Theater Seat History</h1>
+        
+        <div class="w-full flex justify-center">
+            <div class="theater-container-wrapper">
+                <div class="theater-flex-layout">
+                    <div class="row-labels-container" id="row-labels-container">
+                    </div>
+
+                    <div class="theater-layout" id="seat-layout">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="action-buttons" class="mt-8 flex gap-4">
+            <button id="reset-button" class="px-6 py-2 text-white font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                <i class="fas fa-refresh"></i>
+            </button>
+            <button id="screenshot-button" class="px-6 py-2 text-white font-semibold rounded-lg shadow-md transition duration-150 ease-in-out">
+                <i class="fas fa-camera"></i>
+            </button>
+        </div>
+
+        <footer class="footer">
+            <p>Made with ❤️ by Dandy</p>
+        </footer>
+    </div>
+
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
