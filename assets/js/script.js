@@ -148,8 +148,8 @@ function takeScreenshot() {
         useCORS: true,
         allowTaint: false,
         scale: 2,
-        windowWidth: screenshotArea.scrollWidth,
-        windowHeight: screenshotArea.scrollHeight,
+        windowWidth: 1500,
+        windowHeight: 800,
     })
     .then(canvas => {
         actionButtonsContainer.style.display = 'flex';
