@@ -65,7 +65,32 @@ const resetButton = document.getElementById('reset-button');
 const screenshotButton = document.getElementById('screenshot-button'); 
 const actionButtonsContainer = document.getElementById('action-buttons');
 const screenshotArea = document.getElementById('screenshot-area');
+const totalClicksDisplay = document.getElementById('total-clicks-display');
 const localStorageKey = 'jkt48_seats_obtained';
+
+function loadSeatsStatus() {
+    const status = localStorage.getItem(localStorageKey);
+    return status ? JSON.parse(status) : {};
+}
+
+function saveSeatsStatus(status) {
+    localStorage.setItem(localStorageKey, JSON.stringify(status));
+}
+
+function calculateTotalClicks() {
+    const seatsStatus = loadSeatsStatus();
+    if (!seatsStatus) return 0;
+
+    const total = Object.values(seatsStatus).reduce((sum, currentCount) => sum + currentCount, 0);
+    return total;
+}
+
+function updateTotalClicksDisplay() {
+    const total = calculateTotalClicks();
+    if (totalClicksDisplay) {
+        totalClicksDisplay.textContent = `Jumlah kedatangan: ${total}`;
+    }
+}
 
 function loadSeatsStatus() {
     const status = localStorage.getItem(localStorageKey);
@@ -116,6 +141,7 @@ function handleSeatReset(seatElement) {
     
     updateSeatDisplay(seatElement, 0);
     saveSeatsStatus(seatsStatus);
+    updateTotalClicksDisplay();
 }
 
 function handleSeatClick(event) {
@@ -133,6 +159,7 @@ function handleSeatClick(event) {
 
     updateSeatDisplay(seatElement, currentCount);
     saveSeatsStatus(seatsStatus);
+    updateTotalClicksDisplay();
 }
 
 function resetSeats() {
@@ -211,6 +238,7 @@ function renderLayout() {
     });
     
     renderRowLabels();
+    updateTotalClicksDisplay();
 }
 
 function takeScreenshot() {
