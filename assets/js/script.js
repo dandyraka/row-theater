@@ -5,6 +5,9 @@ const COL_START_MIDDLE_RIGHT = 18;
 const COL_END_MIDDLE_RIGHT = COL_START_MIDDLE_RIGHT + 5; 
 const COL_START_RIGHT = 25; 
 const ROW_CHARS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+const HOLD_DURATION = 500;
+
+let holdTimer = null; 
 
 function getColStart(seatCount) {
     return COL_END_LEFT - seatCount + 1;
@@ -73,48 +76,118 @@ function saveSeatsStatus(status) {
     localStorage.setItem(localStorageKey, JSON.stringify(status));
 }
 
+function updateSeatDisplay(seatElement, count) {
+    seatElement.classList.remove('bg-seat-default', 'bg-seat-obtained');
+    
+    if (count > 0) {
+        seatElement.classList.add('occupied', 'bg-seat-obtained');
+        seatElement.classList.add('has-count'); 
+
+        let countDisplay = seatElement.querySelector('.seat-count');
+        if (!countDisplay) {
+            countDisplay = document.createElement('span');
+            countDisplay.className = 'seat-count'; 
+            seatElement.appendChild(countDisplay);
+        }
+        countDisplay.textContent = `${count}x`;
+
+    } else {
+        seatElement.classList.remove('occupied');
+        seatElement.classList.add('bg-seat-default');
+        
+        seatElement.classList.remove('has-count'); 
+        
+        let countDisplay = seatElement.querySelector('.seat-count');
+        if (countDisplay) {
+            countDisplay.remove();
+        }
+    }
+}
+
+function handleSeatReset(seatElement) {
+    const seatId = seatElement.dataset.seatId;
+    let seatsStatus = loadSeatsStatus();
+
+    seatsStatus[seatId] = 0;
+    
+    if (seatsStatus[seatId] === 0) {
+        delete seatsStatus[seatId];
+    }
+    
+    updateSeatDisplay(seatElement, 0);
+    saveSeatsStatus(seatsStatus);
+}
+
 function handleSeatClick(event) {
+    if (holdTimer) return; 
+    
     const seatElement = event.currentTarget;
     const seatId = seatElement.dataset.seatId;
     let seatsStatus = loadSeatsStatus();
 
-    if (seatElement.classList.contains('occupied')) {
-        seatElement.classList.remove('occupied', 'bg-seat-obtained');
-        seatElement.classList.add('bg-seat-default');
-        delete seatsStatus[seatId];
-    } else {
-        seatElement.classList.add('occupied', 'bg-seat-obtained');
-        seatElement.classList.remove('bg-seat-default');
-        seatsStatus[seatId] = true;
-    }
+    let currentCount = seatsStatus[seatId] || 0;
 
+    currentCount++;
+    
+    seatsStatus[seatId] = currentCount;
+
+    updateSeatDisplay(seatElement, currentCount);
     saveSeatsStatus(seatsStatus);
 }
 
 function resetSeats() {
-    if (confirm("Yakin ingin reset kursi? Data akan hilang.")) {
+    if (confirm("Yakin ingin reset kursi? Semua data (jumlah) akan hilang.")) {
         localStorage.removeItem(localStorageKey);
         renderLayout();
     }
 }
 
 function createSeatElement(seatData, seatsStatus) {
-    const isOccupied = seatsStatus[seatData.id];
+    const initialCount = seatsStatus[seatData.id] || 0;
+    const isOccupied = initialCount > 0;
     const [rowChar] = seatData.id.split('-');
     
     const seat = document.createElement('div');
-    
-    seat.className = `seat w-8 h-8 border border-gray-600 flex items-center justify-center text-[10px] cursor-pointer rounded-sm transition duration-100 ease-in-out hover:border-white ${isOccupied ? 'occupied bg-seat-obtained' : 'bg-seat-default'}`;
-    if (isOccupied) {
-        seat.classList.add('occupied');
-    }
+
+    //seat.className = `seat w-8 h-8 border border-gray-600 flex items-center justify-center text-[10px] cursor-pointer rounded-sm transition duration-100 ease-in-out hover:border-white relative ${isOccupied ? 'occupied bg-seat-obtained' : 'bg-seat-default'}`;
+    seat.className = `seat border border-gray-600 flex items-center justify-center cursor-pointer rounded-sm transition duration-100 ease-in-out hover:border-white relative ${isOccupied ? 'occupied bg-seat-obtained' : 'bg-seat-default'}`;
 
     seat.textContent = seatData.id; 
     seat.dataset.seatId = seatData.id;
     seat.dataset.row = rowChar; 
     seat.style.gridColumn = seatData.col; 
 
+    updateSeatDisplay(seat, initialCount); 
+
     seat.addEventListener('click', handleSeatClick);
+
+    const startHoldTimer = (e) => {
+        const currentCount = loadSeatsStatus()[seatData.id] || 0; 
+        
+        if (currentCount > 0) {
+            if (holdTimer) clearTimeout(holdTimer);
+            
+            holdTimer = setTimeout(() => {
+                handleSeatReset(seat);
+                holdTimer = null;
+            }, HOLD_DURATION);
+        }
+    };
+    
+    const clearHoldTimer = () => {
+        if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+        }
+    };
+
+    seat.addEventListener('click', handleSeatClick);
+    seat.addEventListener('mousedown', startHoldTimer);
+    seat.addEventListener('mouseup', clearHoldTimer);
+    seat.addEventListener('mouseleave', clearHoldTimer);
+    seat.addEventListener('touchstart', startHoldTimer);
+    seat.addEventListener('touchend', clearHoldTimer);
+    seat.addEventListener('touchcancel', clearHoldTimer);
 
     return seat;
 }
@@ -148,7 +221,7 @@ function takeScreenshot() {
         useCORS: true,
         allowTaint: false,
         scale: 2,
-        windowWidth: 1500,
+        windowWidth: 2000,
         windowHeight: 800,
     })
     .then(canvas => {
