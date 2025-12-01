@@ -136,7 +136,7 @@ function handleSeatClick(event) {
 }
 
 function resetSeats() {
-    if (confirm("Yakin ingin reset kursi? Semua data (jumlah) akan hilang.")) {
+    if (confirm("Yakin ingin reset? Semua data akan hilang.")) {
         localStorage.removeItem(localStorageKey);
         renderLayout();
     }
@@ -149,7 +149,6 @@ function createSeatElement(seatData, seatsStatus) {
     
     const seat = document.createElement('div');
 
-    //seat.className = `seat w-8 h-8 border border-gray-600 flex items-center justify-center text-[10px] cursor-pointer rounded-sm transition duration-100 ease-in-out hover:border-white relative ${isOccupied ? 'occupied bg-seat-obtained' : 'bg-seat-default'}`;
     seat.className = `seat border border-gray-600 flex items-center justify-center cursor-pointer rounded-sm transition duration-100 ease-in-out hover:border-white relative ${isOccupied ? 'occupied bg-seat-obtained' : 'bg-seat-default'}`;
 
     seat.textContent = seatData.id; 
